@@ -15,7 +15,6 @@ class MoviesController < ApplicationController
 	flash[:color] = "release_date"
     else
         @movies = Movie.all
-	flash[:color] = nil
     end
   end
 
