@@ -7,16 +7,15 @@ class MoviesController < ApplicationController
   end
 
   def index
-    if params[:foo] == 'title'
-        @movies = Movie.order(:title)
-	flash[:color] = "title"
-    elsif params[:foo] == "release_date"
-	@movies = Movie.order(:release_date)
-	flash[:color] = "release_date"
-    else
-        @movies = Movie.all
-	flash[:color] = nil
+    @all_ratings = Movie.ratings
+    session[:ratings] ||= @all_ratings
+    if params[:foo]
+	session[:foo] = params[:foo]
     end
+    if params[:ratings]
+        session[:ratings] = params[:ratings].keys
+    end
+    @movies = Movie.find(:all, :order => session[:foo], :conditions => {:rating => session[:ratings]})
   end
 
   def new
